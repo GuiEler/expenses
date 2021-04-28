@@ -1,11 +1,9 @@
 import 'package:expenses/components/chart.dart';
 import 'package:expenses/components/transaction_form.dart';
 import 'package:flutter/material.dart';
-
 import 'models/transaction.dart';
 import 'components/transaction_form.dart';
 import 'components/transaction_list.dart';
-import 'dart:math';
 
 main() => runApp(ExpensesApp());
 
@@ -25,8 +23,7 @@ class ExpensesApp extends StatelessWidget {
                   fontWeight: FontWeight.w600),
               button:
                   TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-              bodyText2:
-                  TextStyle(fontFamily: 'OpenSans', fontSize: 14)),
+              bodyText2: TextStyle(fontFamily: 'OpenSans', fontSize: 14)),
           appBarTheme: AppBarTheme(
               textTheme: ThemeData.light().textTheme.copyWith(
                   headline6: TextStyle(
@@ -44,6 +41,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final List<Transaction> _transactions = [];
+  int idController = 0;
 
   List<Transaction> get _recentTransactions {
     return _transactions.where((tr) {
@@ -53,11 +51,13 @@ class _HomePageState extends State<HomePage> {
 
   _addTransaction(String title, double value, DateTime date) {
     final newTransaction = Transaction(
-      id: Random().nextDouble.toString(),
+      id: idController,
       title: title,
       value: value,
       date: date,
     );
+
+    idController++;
 
     setState(() {
       _transactions.add(newTransaction);
@@ -66,11 +66,17 @@ class _HomePageState extends State<HomePage> {
     Navigator.of(context).pop();
   }
 
+  _deleteTransaction(int id) {
+    setState(() {
+      _transactions.removeWhere((tr) => tr.id == id);
+    });
+  }
+
   _openTransactionFormModal(BuildContext context) {
     showModalBottomSheet(
         context: context,
         builder: (_) {
-          return TransactionForm(_addTransaction);
+          return TransactionForm(onSubmit: _addTransaction);
         });
   }
 
@@ -94,7 +100,10 @@ class _HomePageState extends State<HomePage> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             Chart(_recentTransactions),
-            TransactionList(_transactions),
+            TransactionList(
+              transactions: _transactions,
+              onRemove: _deleteTransaction,
+            ),
           ],
         ),
       ),

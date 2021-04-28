@@ -4,7 +4,10 @@ import 'package:intl/intl.dart';
 class TransactionForm extends StatefulWidget {
   final void Function(String, double, DateTime) onSubmit;
 
-  TransactionForm(this.onSubmit);
+  const TransactionForm({
+    Key key,
+    this.onSubmit,
+  }) : super(key: key);
 
   @override
   _TransactionFormState createState() => _TransactionFormState();
@@ -43,7 +46,7 @@ class _TransactionFormState extends State<TransactionForm> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 200,
+      height: 400,
       child: Card(
         elevation: 5,
         child: Padding(
