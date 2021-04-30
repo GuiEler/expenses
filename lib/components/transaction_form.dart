@@ -1,5 +1,7 @@
+import 'package:expenses/components/adaptative_button.dart';
+import 'package:expenses/components/adaptative_date_picker.dart';
+import 'package:expenses/components/adaptative_text_field.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 class TransactionForm extends StatefulWidget {
   final void Function(String, double, DateTime) onSubmit;
@@ -29,81 +31,45 @@ class _TransactionFormState extends State<TransactionForm> {
     widget.onSubmit(title, value, _selectedDate);
   }
 
-  _showDatePicker() {
-    showDatePicker(
-            context: context,
-            initialDate: DateTime.now(),
-            firstDate: DateTime(2019),
-            lastDate: DateTime.now())
-        .then((pickedDate) {
-      if (pickedDate == null) return;
-      setState(() {
-        _selectedDate = pickedDate;
-      });
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 400,
+    return SingleChildScrollView(
       child: Card(
         elevation: 5,
         child: Padding(
-          padding: const EdgeInsets.all(10),
-          child: SingleChildScrollView(
-            child: Column(children: <Widget>[
-              TextField(
-                controller: _titleController,
-                onSubmitted: (_) => _submitForm(),
-                decoration: InputDecoration(
-                  labelText: 'Título',
-                ),
-              ),
-              TextField(
-                controller: _valueController,
-                keyboardType: TextInputType.numberWithOptions(decimal: true),
-                onSubmitted: (_) => _submitForm(),
-                decoration: InputDecoration(
-                  labelText: 'Valor (R\$)',
-                ),
-              ),
-              Row(
-                children: [
-                  Expanded(
-                    child: Text(
-                      _selectedDate == null
-                          ? 'Nenhuma data selecionada!'
-                          : 'Data Selecionada: ${DateFormat('dd/MM/yyyy').format(_selectedDate)}',
-                    ),
-                  ),
-                  TextButton(
-                    style: ButtonStyle(
-                        foregroundColor: MaterialStateProperty.all<Color>(
-                            Theme.of(context).primaryColor),
-                        backgroundColor:
-                            MaterialStateProperty.all<Color>(Colors.white)),
-                    child: Text(
-                      'Selecionar Data',
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    onPressed: _showDatePicker,
-                  ),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  ElevatedButton(
-                      child: Text('Nova Transação'),
-                      style: TextButton.styleFrom(
-                          primary: Colors.white,
-                          backgroundColor: Theme.of(context).primaryColor),
-                      onPressed: _submitForm),
-                ],
-              )
-            ]),
-          ),
+          padding:
+              EdgeInsets.all(10), //+ MediaQuery.of(context).viewInsets.bottom),
+          child: Column(children: <Widget>[
+            AdaptativeTextField(
+              controller: _titleController,
+              onSubmitted: (_) => _submitForm(),
+              label: 'Título',
+              autofocus: true,
+            ),
+            AdaptativeTextField(
+              controller: _valueController,
+              keyboardType: TextInputType.numberWithOptions(decimal: true),
+              onSubmitted: (_) => _submitForm(),
+              label: 'Valor (R\$)',
+            ),
+            AdaptativeDatePicker(
+              selectedDate: _selectedDate,
+              onDateChanged: (newDate) {
+                setState(() {
+                  _selectedDate == null
+                      ? _selectedDate = DateTime.now()
+                      : _selectedDate = newDate;
+                });
+              },
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                AdaptativeButton(
+                    label: 'Nova Transação', onPressed: _submitForm)
+              ],
+            )
+          ]),
         ),
       ),
     );

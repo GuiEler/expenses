@@ -39,6 +39,7 @@ class Chart extends StatelessWidget {
       return sum + tr['value'];
     });
   }
+  
 
   @override
   Widget build(BuildContext context) {
