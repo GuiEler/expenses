@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 class ChartBar extends StatelessWidget {
-  final String label;
-  final double value;
-  final double percentage;
+  final String? label;
+  final double? value;
+  final double? percentage;
 
   ChartBar({this.label, this.value, this.percentage});
 
@@ -15,7 +15,7 @@ class ChartBar extends StatelessWidget {
           Container(
             height: constraints.maxHeight * 0.15,
             child: FittedBox(
-              child: Text('\$${value.toStringAsFixed(2)}'),
+              child: Text('\$${value!.toStringAsFixed(2)}'),
             ),
           ),
           SizedBox(height: constraints.maxHeight * 0.05),
@@ -49,7 +49,7 @@ class ChartBar extends StatelessWidget {
           SizedBox(height: constraints.maxHeight * 0.05),
           Container(
               height: constraints.maxHeight * 0.15,
-              child: FittedBox(child: Text(label))),
+              child: FittedBox(child: Text(label!))),
         ],
       );
     });

@@ -5,10 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class AdaptativeDatePicker extends StatelessWidget {
-  final DateTime selectedDate;
-  final Function(DateTime) onDateChanged;
+  final DateTime? selectedDate;
+  final Function(DateTime?)? onDateChanged;
 
-  AdaptativeDatePicker({Key key, this.selectedDate, this.onDateChanged})
+  AdaptativeDatePicker({Key? key, this.selectedDate, this.onDateChanged})
       : super(key: key);
 
   _showDatePicker(BuildContext context) {
@@ -18,7 +18,7 @@ class AdaptativeDatePicker extends StatelessWidget {
             firstDate: DateTime(2019),
             lastDate: DateTime.now())
         .then((pickedDate) {
-      onDateChanged(pickedDate);
+      onDateChanged!(pickedDate);
     });
   }
 
@@ -32,7 +32,7 @@ class AdaptativeDatePicker extends StatelessWidget {
               initialDateTime: DateTime.now(),
               minimumDate: DateTime(2019),
               maximumDate: DateTime.now(),
-              onDateTimeChanged: onDateChanged,
+              onDateTimeChanged: onDateChanged!,
             ),
           )
         : Container(
@@ -42,7 +42,7 @@ class AdaptativeDatePicker extends StatelessWidget {
                 child: Text(
                   selectedDate == null
                       ? 'Nenhuma data selecionada!'
-                      : 'Data Selecionada: ${DateFormat('dd/MM/yyyy').format(selectedDate)}',
+                      : 'Data Selecionada: ${DateFormat('dd/MM/yyyy').format(selectedDate!)}',
                 ),
               ),
               TextButton(

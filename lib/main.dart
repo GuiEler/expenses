@@ -86,15 +86,17 @@ class _HomePageState extends State<HomePage> {
 
   Widget _getIconButton({IconData icon, Function fn}) {
     return Platform.isIOS
-        ? GestureDetector(onTap: fn, child: Icon(icon))
-        : IconButton(icon: Icon(icon), onPressed: fn);
+        ? GestureDetector(onTap: fn as void Function(), child: Icon(icon))
+        : IconButton(icon: Icon(icon), onPressed: fn as void Function());
   }
 
   @override
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
     final iconList = Platform.isIOS ? CupertinoIcons.list_bullet : Icons.list;
-    final iconChart = Platform.isIOS ? CupertinoIcons.chart_bar_square_fill : Icons.show_chart;
+    final iconChart = Platform.isIOS
+        ? CupertinoIcons.chart_bar_square_fill
+        : Icons.show_chart;
 
     bool isLandscape = mediaQuery.orientation == Orientation.landscape;
 
@@ -114,7 +116,7 @@ class _HomePageState extends State<HomePage> {
       ),
     ];
 
-    final PreferredSizeWidget appBar = Platform.isIOS
+    final PreferredSizeWidget appBar = (Platform.isIOS
         ? CupertinoNavigationBar(
             middle: Text(
               'Despesas Pessoais',
@@ -131,7 +133,7 @@ class _HomePageState extends State<HomePage> {
               style: TextStyle(fontFamily: 'OpenSans'),
             ),
             actions: actions,
-          );
+          )) as PreferredSizeWidget;
 
     final avaliableHeight = mediaQuery.size.height -
         appBar.preferredSize.height -
