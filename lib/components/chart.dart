@@ -18,12 +18,12 @@ class Chart extends StatelessWidget {
       double totalSum = 0.0;
 
       for (var i = 0; i < recentTransaction.length; i++) {
-        bool sameDay = recentTransaction[i].date!.day == weekDay.day;
-        bool sameMonth = recentTransaction[i].date!.month == weekDay.month;
-        bool sameYear = recentTransaction[i].date!.year == weekDay.year;
+        bool sameDay = recentTransaction[i].date.day == weekDay.day;
+        bool sameMonth = recentTransaction[i].date.month == weekDay.month;
+        bool sameYear = recentTransaction[i].date.year == weekDay.year;
 
         if (sameDay && sameMonth && sameYear) {
-          totalSum += recentTransaction[i].value!;
+          totalSum += recentTransaction[i].value;
         }
       }
 

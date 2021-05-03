@@ -84,7 +84,7 @@ class _HomePageState extends State<HomePage> {
         });
   }
 
-  Widget _getIconButton({IconData icon, Function fn}) {
+  Widget _getIconButton({required IconData icon, required Function fn}) {
     return Platform.isIOS
         ? GestureDetector(onTap: fn as void Function(), child: Icon(icon))
         : IconButton(icon: Icon(icon), onPressed: fn as void Function());

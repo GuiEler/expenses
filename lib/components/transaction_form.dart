@@ -8,8 +8,8 @@ class TransactionForm extends StatefulWidget {
       onSubmit;
 
   const TransactionForm({
-    Key key,
-    this.onSubmit,
+    Key? key,
+    required this.onSubmit,
   }) : super(key: key);
 
   @override
@@ -19,7 +19,7 @@ class TransactionForm extends StatefulWidget {
 class _TransactionFormState extends State<TransactionForm> {
   final _titleController = TextEditingController();
   final _valueController = TextEditingController();
-  DateTime _selectedDate;
+  DateTime? _selectedDate;
 
   _submitForm() {
     final title = _titleController.text;
@@ -29,7 +29,7 @@ class _TransactionFormState extends State<TransactionForm> {
       return;
     }
 
-    widget.onSubmit(title, value, _selectedDate);
+    widget.onSubmit(title, value, _selectedDate!);
   }
 
   @override

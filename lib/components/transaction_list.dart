@@ -10,9 +10,9 @@ class TransactionList extends StatelessWidget {
   final Function(int id) onRemove;
 
   const TransactionList({
-    Key key,
-    this.transactions,
-    this.onRemove,
+    Key? key,
+    required this.transactions,
+    required this.onRemove,
   }) : super(key: key);
 
   @override
